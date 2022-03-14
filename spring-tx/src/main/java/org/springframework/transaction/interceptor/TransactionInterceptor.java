@@ -106,7 +106,10 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 		setTransactionAttributes(attributes);
 	}
 
-
+	/**
+	 * @author sjw
+	 * spring事务是通过调用此类的invoke()来实现的
+	 */
 	@Override
 	@Nullable
 	public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -116,6 +119,9 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 		Class<?> targetClass = (invocation.getThis() != null ? AopUtils.getTargetClass(invocation.getThis()) : null);
 
 		// Adapt to TransactionAspectSupport's invokeWithinTransaction...
+		/**
+		 * 这里已事务的方式调用目标方法
+		 */
 		return invokeWithinTransaction(invocation.getMethod(), targetClass, new CoroutinesInvocationCallback() {
 			@Override
 			@Nullable
